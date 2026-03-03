@@ -1,9 +1,8 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Avatar,
   Box,
   Button,
   Grid,
@@ -12,99 +11,92 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import SpeedIcon from "@mui/icons-material/Speed";
-import SecurityIcon from "@mui/icons-material/Security";
-import TrackChangesIcon from "@mui/icons-material/TrackChanges";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
+import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 
-const features = [
+const highlights = [
   {
-    icon: SpeedIcon,
-    title: "Fast Application",
-    description: "Complete your application in just minutes with our streamlined process",
+    icon: ShieldOutlinedIcon,
+    title: "Secure document handling",
+    description: "Your uploads are transmitted over encrypted connections and reviewed by authorized staff only.",
   },
   {
-    icon: SecurityIcon,
-    title: "Secure & Private",
-    description: "Enterprise-grade encryption protects your personal and financial data",
+    icon: ScheduleOutlinedIcon,
+    title: "Clear decision timeline",
+    description: "Most complete applications receive an update within one to two business days.",
   },
   {
-    icon: TrackChangesIcon,
-    title: "Real-time Tracking",
-    description: "Monitor your application status 24/7 from submission to approval",
-  },
-  {
-    icon: AssignmentIndIcon,
-    title: "Expert Review",
-    description: "Transparent and fair review process by qualified loan specialists",
+    icon: NotificationsActiveOutlinedIcon,
+    title: "Status updates you can track",
+    description: "Use your contact details and national ID to check progress at any time.",
   },
 ];
 
-const steps = [
+const processSteps = [
   {
-    number: 1,
-    title: "Submit Details",
-    description: "Provide your personal and financial information",
+    title: "Complete the application",
+    description: "Share your contact details, employment information, and requested loan amount.",
   },
   {
-    number: 2,
-    title: "Upload Documents",
-    description: "Submit your ID and selfie for verification",
+    title: "Upload verification documents",
+    description: "Provide a government ID and a current selfie so we can verify identity accurately.",
   },
   {
-    number: 3,
-    title: "Review",
-    description: "Our team carefully evaluates your application",
+    title: "Internal review",
+    description: "Our lending team reviews affordability, risk, and document completeness.",
   },
   {
-    number: 4,
-    title: "Get Approved",
-    description: "Receive decision and loan offer details",
+    title: "Decision and next steps",
+    description: "You will receive a decision and follow-up instructions through your registered contact channel.",
   },
 ];
 
-const statistics = [
-  { value: "2,500+", label: "Successful Applications" },
-  { value: "98%", label: "Approval Rate" },
-  { value: "$50M+", label: "Funds Disbursed" },
-  { value: "24h", label: "Avg Decision Time" },
+const checklist = [
+  "Valid national ID number",
+  "Recent selfie photo",
+  "Current phone number and email address",
+  "Employment status and monthly income details",
+];
+
+const requirements = [
+  "Full legal name and date of birth",
+  "Current residential address",
+  "Employment status and monthly income",
+  "Requested loan amount",
+  "National ID document (JPG, PNG, or PDF up to 5MB)",
+  "Selfie image (JPG or PNG up to 5MB)",
 ];
 
 const faqItems = [
   {
-    question: "How long does the application process take?",
-    answer: "Most applications are processed within 24-48 hours. You'll receive updates via email and can track your status in real-time on our platform.",
+    question: "How long does the review usually take?",
+    answer: "If all required details are provided correctly, most applications are updated within one to two business days.",
   },
   {
-    question: "What documents are required?",
-    answer: "You'll need a valid national ID and a selfie for identity verification, along with income proof and financial documents.",
+    question: "Do I pay to submit an application?",
+    answer: "No. There is no application fee for submitting your request through this portal.",
   },
   {
-    question: "Is my financial information secure?",
-    answer: "Yes, we use enterprise-grade encryption (SSL/TLS) and follow strict data protection protocols. Your information is never shared with third parties.",
+    question: "Can I track my application after submitting?",
+    answer: "Yes. Use the same phone number or email plus your national ID number on the status page.",
   },
   {
-    question: "Can I check my application status?",
-    answer: "Absolutely! You can check your status anytime using your phone number or email along with your national ID number.",
+    question: "What happens if information is missing?",
+    answer: "The review team may contact you for clarification or additional documents before a final decision.",
   },
   {
-    question: "When will I receive the loan decision?",
-    answer: "Most decisions are made within 24-48 hours. Urgent applications may be processed faster. You'll be notified by email and SMS.",
-  },
-  {
-    question: "What is the maximum loan amount?",
-    answer: "The maximum loan amount depends on your income, credit history, and employment status. Our team will provide personalized offers.",
-  },
-  {
-    question: "Is there an application fee?",
-    answer: "No, applying is completely free. There are no hidden charges or application fees.",
-  },
-  {
-    question: "Can I modify my application after submission?",
-    answer: "You can contact our support team to request modifications within 24 hours of submission.",
+    question: "How is my personal data protected?",
+    answer: "Data is handled through secure channels and reviewed only for loan-processing purposes.",
   },
 ];
+
+const humanImages = {
+  hero: "https://images.pexels.com/photos/36392326/pexels-photo-36392326.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  consultation: "https://images.pexels.com/photos/4730795/pexels-photo-4730795.jpeg?auto=compress&cs=tinysrgb&w=1200",
+};
 
 function LandingPage() {
   const [expandedFaq, setExpandedFaq] = useState(false);
@@ -114,215 +106,271 @@ function LandingPage() {
   };
 
   return (
-    <Stack spacing={8}>
-      {/* Hero Section */}
-      <Grid container spacing={4} className="slide-up" alignItems="center">
-        <Grid item xs={12} md={7}>
-          <Typography variant="h2" gutterBottom>
-            Fast, secure loan applications with transparent review.
-          </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 620, mb: 3 }}>
-            Submit your request in minutes, verify your identity safely, and track status in real time.
-          </Typography>
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-            <Button component={RouterLink} to="/apply" variant="contained" size="large">
-              Start Application
-            </Button>
-            <Button component={RouterLink} to="/status" variant="outlined" size="large">
-              Check Status
-            </Button>
-          </Stack>
-        </Grid>
-
-        <Grid item xs={12} md={5}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              border: "1px solid #d9e5e2",
-              background:
-                "linear-gradient(160deg, rgba(15,118,110,0.08) 0%, rgba(249,115,22,0.12) 100%)",
-            }}
-          >
-            <Typography variant="h5" gutterBottom>
-              Why this platform
+    <Stack spacing={{ xs: 5, md: 7 }}>
+      <Paper
+        elevation={0}
+        className="section-reveal"
+        sx={{
+          p: { xs: 3, md: 5 },
+          border: "1px solid",
+          borderColor: "divider",
+          background: "linear-gradient(145deg, rgba(21,78,117,0.09), rgba(255,255,255,0.9) 48%)",
+        }}
+      >
+        <Grid container spacing={4} alignItems="center">
+          <Grid item xs={12} md={7}>
+            <Typography
+              variant="overline"
+              sx={{
+                letterSpacing: 1.1,
+                color: "primary.dark",
+                fontWeight: 700,
+                display: "inline-block",
+                mb: 1,
+              }}
+            >
+              Easy Loans Portal
             </Typography>
-            <Typography component="ul" sx={{ pl: 2, m: 0, lineHeight: 1.8 }}>
-              <li>Dual validation on frontend and backend</li>
-              <li>Admin workflows with audit trail</li>
-              <li>Private media access controls</li>
-              <li>Production-ready API architecture</li>
+            <Typography variant="h2" sx={{ mb: 2 }}>
+              Personal loans with clear terms and real people reviewing every application.
             </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
+            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 620, lineHeight: 1.75, mb: 3 }}>
+              Submit your request in one secure form, upload your documents, and follow each stage from submission to
+              final decision.
+            </Typography>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <Button component={RouterLink} to="/apply" variant="contained" size="large">
+                Start application
+              </Button>
+              <Button component={RouterLink} to="/status" variant="outlined" size="large">
+                Track existing application
+              </Button>
+            </Stack>
+          </Grid>
 
-      {/* Features Section */}
-      <Stack spacing={3}>
-        <Box>
-          <Typography variant="h3" gutterBottom sx={{ color: "#0f766e" }}>
-            Why Choose Us
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Experience the difference with cutting-edge loan application technology
-          </Typography>
-        </Box>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 3 }}>
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Paper
-                  elevation={0}
-                  className="fade-in-up card-hover"
-                  sx={{
-                    p: 3,
-                    border: "1px solid #d9e5e2",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    background:
-                      "linear-gradient(135deg, rgba(15,118,110,0.04) 0%, rgba(249,115,22,0.08) 100%)",
-                  }}
-                >
-                  <Box sx={{ mb: 2 }}>
-                    <Icon sx={{ fontSize: { xs: 40, sm: 48, md: 56 }, color: "#0f766e" }} />
-                  </Box>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                    {feature.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {feature.description}
-                  </Typography>
-                </Paper>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Stack>
-
-      {/* How It Works Section */}
-      <Stack spacing={3}>
-        <Box>
-          <Typography variant="h3" gutterBottom sx={{ color: "#0f766e" }}>
-            How It Works
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Simple, straightforward process to get your loan approved
-          </Typography>
-        </Box>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 2 }}>
-          {steps.map((step, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid item xs={12} md={5}>
+            <Stack spacing={2}>
               <Box
+                component="img"
+                src={humanImages.hero}
+                alt="Ghanaian market women selling corn in Accra"
+                loading="lazy"
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
+                  width: "100%",
+                  height: { xs: 220, md: 260 },
+                  objectFit: "cover",
+                  borderRadius: 3,
+                  border: "1px solid",
+                  borderColor: "divider",
                 }}
-              >
-                <Avatar
-                  sx={{
-                    width: { xs: 60, md: 70 },
-                    height: { xs: 60, md: 70 },
-                    backgroundColor: "#0f766e",
-                    fontSize: { xs: 28, md: 32 },
-                    fontWeight: 600,
-                    mb: 2,
-                    className: "step-pulse",
-                  }}
-                >
-                  {step.number}
-                </Avatar>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                  {step.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {step.description}
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Stack>
-
-      {/* Statistics Section */}
-      <Stack spacing={3}>
-        <Box>
-          <Typography variant="h3" gutterBottom sx={{ color: "#0f766e" }}>
-            Our Impact
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Trusted by thousands of borrowers across the region
-          </Typography>
-        </Box>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 3 }}>
-          {statistics.map((stat, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+              />
               <Paper
                 elevation={0}
-                className="fade-in-up card-hover"
                 sx={{
                   p: 3,
-                  border: "1px solid #d9e5e2",
-                  textAlign: "center",
-                  background:
-                    "linear-gradient(135deg, rgba(15,118,110,0.04) 0%, rgba(249,115,22,0.08) 100%)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backgroundColor: "rgba(255, 255, 255, 0.82)",
                 }}
               >
-                <Typography
-                  variant="h3"
-                  sx={{
-                    color: "#0f766e",
-                    fontWeight: 700,
-                    mb: 1,
-                  }}
-                >
-                  {stat.value}
+                <Typography variant="h6" sx={{ mb: 1.5 }}>
+                  Before you apply
                 </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 500 }}>
-                  {stat.label}
-                </Typography>
+                <Stack component="ul" spacing={1.2} sx={{ m: 0, pl: 2.5 }}>
+                  {checklist.map((item) => (
+                    <Typography component="li" key={item} sx={{ color: "text.secondary", lineHeight: 1.65 }}>
+                      {item}
+                    </Typography>
+                  ))}
+                </Stack>
+              </Paper>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      <Grid container spacing={2} className="section-reveal">
+        {highlights.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <Grid item xs={12} md={4} key={item.title}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  height: "100%",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                }}
+              >
+                <Stack spacing={1.5}>
+                  <Box
+                    sx={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: "50%",
+                      display: "grid",
+                      placeItems: "center",
+                      backgroundColor: "primary.light",
+                      color: "primary.main",
+                    }}
+                  >
+                    <Icon fontSize="small" />
+                  </Box>
+                  <Typography variant="h6">{item.title}</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                    {item.description}
+                  </Typography>
+                </Stack>
+              </Paper>
+            </Grid>
+          );
+        })}
+      </Grid>
+
+      <Paper
+        elevation={0}
+        className="section-reveal"
+        sx={{ p: { xs: 2.5, md: 3 }, border: "1px solid", borderColor: "divider", backgroundColor: "#ffffffc2" }}
+      >
+        <Grid container spacing={2.5} alignItems="center">
+          <Grid item xs={12} md={5}>
+            <Box
+              component="img"
+              src={humanImages.consultation}
+              alt="Smiling Ghanaian woman in traditional attire in Accra"
+              loading="lazy"
+              sx={{
+                width: "100%",
+                height: { xs: 210, md: 250 },
+                objectFit: "cover",
+                borderRadius: 2.5,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <Typography variant="h5" sx={{ mb: 1 }}>
+              A people-first review process
+            </Typography>
+            <Typography color="text.secondary" sx={{ lineHeight: 1.75 }}>
+              Every completed application is reviewed by a lending team, not just an automated system. That means
+              clear follow-up when details are missing and practical support while your request is in progress.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      <Stack spacing={2} className="section-reveal">
+        <Box>
+          <Typography variant="h3" sx={{ mb: 1 }}>
+            How the process works
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            A simple four-step process designed to keep you informed from start to finish.
+          </Typography>
+        </Box>
+        <Grid container spacing={2}>
+          {processSteps.map((step, index) => (
+            <Grid item xs={12} sm={6} key={step.title}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  height: "100%",
+                  backgroundColor: "rgba(255,255,255,0.92)",
+                }}
+              >
+                <Stack direction="row" spacing={2} alignItems="flex-start">
+                  <Box
+                    sx={{
+                      minWidth: 30,
+                      height: 30,
+                      borderRadius: "50%",
+                      bgcolor: "primary.main",
+                      color: "primary.contrastText",
+                      display: "grid",
+                      placeItems: "center",
+                      fontWeight: 700,
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {index + 1}
+                  </Box>
+                  <Box>
+                    <Typography variant="h6" sx={{ mb: 0.5 }}>
+                      {step.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                      {step.description}
+                    </Typography>
+                  </Box>
+                </Stack>
               </Paper>
             </Grid>
           ))}
         </Grid>
       </Stack>
 
-      {/* FAQ Section */}
-      <Stack spacing={3}>
+      <Stack spacing={2} className="section-reveal">
         <Box>
-          <Typography variant="h3" gutterBottom sx={{ color: "#0f766e" }}>
-            Frequently Asked Questions
+          <Typography variant="h3" sx={{ mb: 1 }}>
+            What you need to prepare
           </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Find answers to common questions about our loan application process
+          <Typography variant="body1" color="text.secondary">
+            Having these details ready will make your application faster and reduce review delays.
           </Typography>
         </Box>
-        <Stack spacing={2} className="fade-in">
+        <Grid container spacing={2}>
+          {requirements.map((item) => (
+            <Grid item xs={12} sm={6} key={item}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backgroundColor: "rgba(255,255,255,0.92)",
+                }}
+              >
+                <Stack direction="row" spacing={1.2} alignItems="flex-start">
+                  <CheckCircleOutlineIcon sx={{ color: "secondary.main", mt: "2px", fontSize: 20 }} />
+                  <Typography variant="body2" sx={{ lineHeight: 1.7 }}>
+                    {item}
+                  </Typography>
+                </Stack>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Stack>
+
+      <Stack spacing={2} className="section-reveal">
+        <Box>
+          <Typography variant="h3" sx={{ mb: 1 }}>
+            Frequently asked questions
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Answers to common questions before and after submission.
+          </Typography>
+        </Box>
+        <Stack spacing={1.5}>
           {faqItems.map((item, index) => (
             <Accordion
-              key={index}
-              expanded={expandedFaq === `panel${index}`}
-              onChange={handleFaqChange(`panel${index}`)}
-              sx={{
-                border: "1px solid #d9e5e2",
-                "&:before": { display: "none" },
-                "& .MuiAccordionSummary-root": {
-                  "&:hover": {
-                    backgroundColor: "rgba(15, 118, 110, 0.04)",
-                  },
-                },
-              }}
+              key={item.question}
+              expanded={expandedFaq === `panel-${index}`}
+              onChange={handleFaqChange(`panel-${index}`)}
+              elevation={0}
+              sx={{ border: "1px solid", borderColor: "divider", backgroundColor: "rgba(255, 255, 255, 0.94)" }}
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography sx={{ fontWeight: 600, color: "#1f2937" }}>
-                  {item.question}
-                </Typography>
+                <Typography sx={{ fontWeight: 600 }}>{item.question}</Typography>
               </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: "rgba(15, 118, 110, 0.02)" }}>
-                <Typography color="text.secondary" sx={{ lineHeight: 1.7 }}>
+              <AccordionDetails>
+                <Typography color="text.secondary" sx={{ lineHeight: 1.8 }}>
                   {item.answer}
                 </Typography>
               </AccordionDetails>
@@ -331,25 +379,25 @@ function LandingPage() {
         </Stack>
       </Stack>
 
-      {/* CTA Section */}
       <Paper
         elevation={0}
+        className="section-reveal"
         sx={{
-          p: { xs: 4, md: 6 },
-          border: "1px solid #d9e5e2",
-          background:
-            "linear-gradient(160deg, rgba(15,118,110,0.08) 0%, rgba(249,115,22,0.12) 100%)",
+          p: { xs: 3, md: 5 },
+          border: "1px solid",
+          borderColor: "divider",
           textAlign: "center",
+          background: "linear-gradient(145deg, rgba(184,116,50,0.11), rgba(255,255,255,0.96) 50%)",
         }}
       >
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
-          Ready to Apply?
+        <Typography variant="h4" sx={{ mb: 1.5 }}>
+          Ready to submit your loan request?
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 500, mx: "auto", mb: 3 }}>
-          Join thousands of satisfied customers who have successfully obtained their loans through our platform.
+        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 620, mx: "auto", lineHeight: 1.75, mb: 3 }}>
+          Start your application now, then use the tracking page anytime to view the latest review status.
         </Typography>
         <Button component={RouterLink} to="/apply" variant="contained" size="large">
-          Start Your Application Today
+          Continue to application form
         </Button>
       </Paper>
     </Stack>
