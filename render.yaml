@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: loan-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python manage.py migrate
+    startCommand: gunicorn config.wsgi:application -c gunicorn.conf.py
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: USE_SQLITE
+        value: "True"
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+      - key: JWT_ACCESS_MINUTES
+        value: "30"
+      - key: JWT_REFRESH_DAYS
+        value: "1"
+      - key: LOAN_MAX_AMOUNT
+        value: "100000"
+      - key: MAX_UPLOAD_SIZE_BYTES
+        value: "5242880"
+
+  - type: static
+    name: loan-frontend
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+      - key: VITE_LOAN_MAX_AMOUNT
+        value: "100000"
