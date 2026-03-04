@@ -11,15 +11,22 @@ const resolveApiBaseUrl = () => {
     return normalizeBaseUrl(configuredBaseUrl);
   }
 
-  if (import.meta.env.DEV) {
-    return DEFAULT_LOCAL_API_BASE_URL;
-  }
-
   if (typeof window !== "undefined") {
-    if (window.location.hostname.endsWith(".onrender.com")) {
+    const hostname = window.location.hostname.toLowerCase();
+
+    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]") {
+      return DEFAULT_LOCAL_API_BASE_URL;
+    }
+
+    if (hostname.endsWith(".onrender.com")) {
       return DEFAULT_RENDER_API_BASE_URL;
     }
+
     return `${window.location.origin}/api`;
+  }
+
+  if (import.meta.env.DEV) {
+    return DEFAULT_LOCAL_API_BASE_URL;
   }
 
   return DEFAULT_LOCAL_API_BASE_URL;
