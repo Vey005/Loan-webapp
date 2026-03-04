@@ -28,7 +28,10 @@ def env_list(name, default=""):
 SECRET_KEY = env("DJANGO_SECRET_KEY", "django-insecure-change-me")
 DEBUG = env_bool("DEBUG", True)
 
-ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1")
+DEFAULT_ALLOWED_HOSTS = "localhost,127.0.0.1,.onrender.com"
+DEFAULT_WEB_ORIGINS = "http://localhost:5173,https://easy-loans.onrender.com,https://loan-frontend.onrender.com"
+
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -113,10 +116,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = env_list("CORS_ALLOWED_ORIGINS", "http://localhost:5173")
+CORS_ALLOWED_ORIGINS = env_list("CORS_ALLOWED_ORIGINS", DEFAULT_WEB_ORIGINS)
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "http://localhost:5173")
+CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", DEFAULT_WEB_ORIGINS)
 
 JWT_ACCESS_MINUTES = int(env("JWT_ACCESS_MINUTES", "30"))
 JWT_REFRESH_DAYS = int(env("JWT_REFRESH_DAYS", "1"))
